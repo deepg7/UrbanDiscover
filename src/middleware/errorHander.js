@@ -4,7 +4,6 @@ const errorHandler = (err,req,res,next)=>{
         code: err.statusCode,
         message: err.message
     })
-    
 }
 
 module.exports = errorHandler

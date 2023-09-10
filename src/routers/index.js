@@ -3,12 +3,8 @@ const User = require('../models/user')
 const auth = require('./../middleware')
 const checkPassword = require('../middleware/checkPassword')
 const mailer = require('../middleware/mailer')
-
-
 const router = new express.Router()
 
-
-//route for sign up
 router.post('/signup',async(req,res)=>{
    const user = new User(req.body)
    
@@ -25,9 +21,6 @@ router.post('/signup',async(req,res)=>{
     }
 })
 
-
-
-// route for login
 router.post('/login',async(req,res)=>{
     try {
         const user = await User.findByCredentials(req.body.email,req.body.password)
@@ -39,7 +32,6 @@ router.post('/login',async(req,res)=>{
     }
 })
 
-
 router.get("/makeAdmin",auth,async(req,res)=>{
     if(!req.user) return res.status(400).send("protected route")
     console.log(req.user)
@@ -47,9 +39,6 @@ router.get("/makeAdmin",auth,async(req,res)=>{
     const token = await user.makeAdmin()
     return res.send({user,token})
 })
-
-
-//route for logout
 
 router.post('/logout',auth,async (req,res)=>{
     try {
@@ -61,11 +50,8 @@ router.post('/logout',auth,async (req,res)=>{
     } catch (e) {
         console.log(e)
         res.status(400).send('err')
-        // errorHandler(new BadRequestError,req,res)
     }
 })
-
-
 
 router.post('/resetPassword',async(req,res)=>{
     try {
@@ -84,8 +70,7 @@ router.post('/resetPassword',async(req,res)=>{
         setTimeout(deleteOtp,180000) 
     } catch (e) {
         res.status(400).send(e)
-    }
-       
+    } 
 })
 
 router.post('/submitNewPassword',async(req,res)=>{

@@ -39,13 +39,11 @@ userSchema.methods.toJSON= function(){
 }
 
 userSchema.methods.generateAuthToken = async function() {
-
     const user=this
     const token= jwt.sign({_id: user._id.toString(),role:null},process.env.JWT_KEY,{expiresIn:120})
     user.token=token
     await user.save()
     return token
-    
 }
 
 userSchema.methods.makeAdmin = async function(){
@@ -75,7 +73,6 @@ userSchema.pre('save', async function(next){
     if(user.isModified('password')){
         user.password=await bcrypt.hash(user.password,8)
     }
-    
     next()
 })
 
